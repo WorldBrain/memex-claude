@@ -1,18 +1,16 @@
 # Memex Claude Code plugin
 
-This is the Claude plugin for Memex.Garden, a bookmarking second brain for humans and agents.
+This is the Claude plugin for [Memex.Garden](https://memex.garden), a bookmarking second brain for humans and agents.
 
 You can save, transcribe, summarize and search anything you come across. Websites, notes, web highlights, YouTube, X, TikTok, Instagram, PDFs, Reddit or images.
 
 ## Install from this repo
 
-Validate the repo directly:
+Download the plugin bundle directly:
 
-```bash
-claude plugin validate /absolute/path/to/claude-memex
-```
+- [Download](https://github.com/WorldBrain/claude-memex/raw/main/memex-garden-claude-plugin.zip)
 
-## Run from a local checkout
+Unzip it, then run Claude Code with the extracted plugin directory:
 
 ```bash
 claude --plugin-dir /absolute/path/to/claude-memex
@@ -77,7 +75,6 @@ If you are using Claude's custom connector UI instead of the local Claude Code p
 
 1. `Search my Memex library for pages about MCP authentication and summarize the top results.`
 2. `Save https://docs.memex.garden/general/authentication into Memex, then confirm whether it was new or already indexed.`
-3. `Search Memex for recent saved content about Claude plugins and return the source URLs you used.`
 
 ## Reviewer notes
 

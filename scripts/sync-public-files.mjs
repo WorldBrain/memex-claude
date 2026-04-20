@@ -1,4 +1,6 @@
-import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { execFileSync } from 'node:child_process'
+import { cp, mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
+import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -16,6 +18,16 @@ const REQUIRED_PATHS = [
     ],
 ]
 
+const DOWNLOAD_PATHS = [
+    '.claude-plugin',
+    '.mcp.json',
+    'README.md',
+    'LICENSE',
+    'hooks',
+    'scripts/index-user-prompt-urls.mjs',
+    'skills',
+]
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const repoRoot = path.resolve(__dirname, '..')
@@ -30,6 +42,36 @@ function resolveMonorepoRoot() {
     }
 
     return path.resolve(candidate)
+}
+
+async function buildDownloadZip() {
+    const zipPath = path.join(repoRoot, 'memex-garden-claude-plugin.zip')
+    const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'claude-memex-zip-'))
+    const stagingRoot = path.join(tempRoot, 'claude-memex')
+
+    try {
+        await mkdir(stagingRoot, { recursive: true })
+
+        for (const relativePath of DOWNLOAD_PATHS) {
+            await cp(
+                path.join(repoRoot, relativePath),
+                path.join(stagingRoot, relativePath),
+                { recursive: true },
+            )
+        }
+
+        await rm(zipPath, { force: true })
+        execFileSync(
+            'zip',
+            ['-r', zipPath, 'claude-memex', '-x', '*.DS_Store'],
+            {
+                cwd: tempRoot,
+                stdio: 'ignore',
+            },
+        )
+    } finally {
+        await rm(tempRoot, { recursive: true, force: true })
+    }
 }
 
 async function syncPublicFiles() {
@@ -68,6 +110,7 @@ async function syncPublicFiles() {
     packageJson.version = releaseConfig.claudePlugin.version
 
     await writeFile(packageJsonPath, `${JSON.stringify(packageJson, null, 4)}\n`)
+    await buildDownloadZip()
 
     console.log(`Synced Claude plugin files from ${monorepoRoot}`)
 }

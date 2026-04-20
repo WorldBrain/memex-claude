@@ -8,6 +8,7 @@ const REQUIRED_FILES = [
     'README.md',
     'LICENSE',
     'hooks/hooks.json',
+    'memex-garden-claude-plugin.zip',
     'scripts/index-user-prompt-urls.mjs',
     'skills/memex-agent-skill/SKILL.md',
 ]
