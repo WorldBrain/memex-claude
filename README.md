@@ -14,27 +14,13 @@ Claude reviewers and users who want the smallest self-contained checkout should 
 
 [Download](https://github.com/WorldBrain/memex-claude/raw/main/memex-garden-claude-plugin.zip) the plugin.
 
-## Install from the marketplace
+## How to install
 
-The repo now exposes a Claude marketplace catalog at its root, so you can add it directly from GitHub:
-
-```bash
-claude plugin marketplace add WorldBrain/memex-v2
-claude plugin install memex-garden@memex-plugins
-```
-
-To refresh the catalog later:
-
-```bash
-claude plugin marketplace update memex-plugins
-```
-
-If you are working from a local clone instead of GitHub, you can also test the marketplace locally:
-
-```bash
-claude plugin marketplace add /absolute/path/to/memex-v2
-claude plugin install memex-garden@memex-plugins
-```
+1. Download the plugin.
+2. Extract the zip, or clone the standalone repo and use it directly.
+3. Launch Claude Code with the plugin directory.
+4. Export credentials before launching Claude Code if needed.
+5. You're done. You can now use Memex inside Claude Code.
 
 If you are using Claude's custom connector UI, do not install this bundle. Use `https://api.memex.garden/mcp` as the connector URL and complete the OAuth flow described in the auth docs.
 
@@ -82,21 +68,13 @@ export MEMEX_API_BASE_URL="https://api.memex.garden"
 
 ## Run from a local checkout
 
-From this repository:
-
-```bash
-claude --plugin-dir /absolute/path/to/memex-v2/memex-claude
-```
-
-Then run `/mcp` in Claude Code and confirm the `memex` server is connected.
-
-If you installed through the marketplace, use `/plugin list` to confirm the plugin is enabled instead of launching Claude with `--plugin-dir`.
-
 For the standalone public checkout instead:
 
 ```bash
 claude --plugin-dir /absolute/path/to/memex-claude
 ```
+
+Then run `/mcp` in Claude Code and confirm the `memex` server is connected.
 
 ## Notes
 
