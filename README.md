@@ -6,7 +6,7 @@ You can save, transcribe, summarize and search anything you come across. Website
 
 ## How to install
 
-1. Download plugin: [Download](https://github.com/WorldBrain/claude-memex/raw/main/memex-garden-claude-plugin.zip)
+1. Download plugin: [Download](https://github.com/WorldBrain/memex-claude/raw/main/memex-garden-claude-plugin.zip)
 2. Go to Claude's `Customize` tab
 3. `Personal Plugins` > `+` icon > `Create Plugin` > `Upload Plugin`
 4. Select the zip

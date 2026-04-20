@@ -13,7 +13,7 @@ const REQUIRED_FILES = [
     'skills/memex-agent-skill/SKILL.md',
 ]
 
-const EXPECTED_REPOSITORY_URL = 'https://github.com/WorldBrain/claude-memex'
+const EXPECTED_REPOSITORY_URL = 'https://github.com/WorldBrain/memex-claude'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)

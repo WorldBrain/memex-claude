@@ -1,5 +1,5 @@
 {
-    "name": "claude-memex-release",
+    "name": "memex-claude-release",
     "private": true,
     "version": "0.3.0",
     "type": "module",

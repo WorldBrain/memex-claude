@@ -46,8 +46,8 @@ function resolveMonorepoRoot() {
 
 async function buildDownloadZip() {
     const zipPath = path.join(repoRoot, 'memex-garden-claude-plugin.zip')
-    const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'claude-memex-zip-'))
-    const stagingRoot = path.join(tempRoot, 'claude-memex')
+    const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'memex-claude-zip-'))
+    const stagingRoot = path.join(tempRoot, 'memex-claude')
 
     try {
         await mkdir(stagingRoot, { recursive: true })
@@ -63,7 +63,7 @@ async function buildDownloadZip() {
         await rm(zipPath, { force: true })
         execFileSync(
             'zip',
-            ['-r', zipPath, 'claude-memex', '-x', '*.DS_Store'],
+            ['-r', zipPath, 'memex-claude', '-x', '*.DS_Store'],
             {
                 cwd: tempRoot,
                 stdio: 'ignore',
