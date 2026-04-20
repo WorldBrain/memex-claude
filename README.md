@@ -18,7 +18,7 @@ You can save, transcribe, summarize and search anything you come across. Website
 ## Example prompts
 
 1. `Search my Memex library for pages about MCP authentication and summarize the top results.`
-2. `Save https://docs.memex.garden/general/authentication into Memex, then confirm whether it was new or already indexed.`
+2. `Save https://docs.memex.garden/general/authentication into Memex, and tag it with #tutorials`
 
 ## Authentication
 
