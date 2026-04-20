@@ -6,17 +6,14 @@ You can save, transcribe, summarize and search anything you come across. Website
 
 ## Install from this repo
 
-Download the plugin bundle directly:
-
-- [Download](https://github.com/WorldBrain/claude-memex/raw/main/memex-garden-claude-plugin.zip)
-
-Unzip it, then run Claude Code with the extracted plugin directory:
-
-```bash
-claude --plugin-dir /absolute/path/to/claude-memex
-```
-
-Then run `/mcp` in Claude Code and confirm the `memex` server is connected.
+1. Download plugin: [Download](https://github.com/WorldBrain/claude-memex/raw/main/memex-garden-claude-plugin.zip)
+2. Go to Claude's `Customize` tab
+3. `Personal Plugins` > `+` icon > `Create Plugin` > `Upload Plugin`
+4. Select the zip
+5. Select `Memex Garden Plugin` > `Connectors` > `Connect`
+6. Follow the OAuth flow
+7. Optionally adjust tool permissions
+8. You're done. You can now chat with Memex in your conversations.
 
 ## How it works
 
