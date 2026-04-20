@@ -2,7 +2,7 @@
 
 This is the Claude plugin for [Memex.Garden](https://memex.garden), a bookmarking second brain for humans and agents.
 
-You can save, transcribe, summarize and search anything you come across. Websites, notes, web highlights, YouTube, X, TikTok, Instagram, PDFs, Reddit or images. Here is our [Privacy Policy](https://memex.garden/privacy).
+You can save, transcribe, summarize and search anything you come across. Websites, notes, web highlights, YouTube, X, TikTok, Instagram, PDFs, Reddit or images. Here is our [Privacy Policy](https://memex.garden/privacy) and our [docs](https://docs.memex.garden).
 
 ## How to install
 
