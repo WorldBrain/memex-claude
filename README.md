@@ -1,8 +1,8 @@
 # Memex Claude Code plugin
 
-This repository is the public standalone release and review repository for the Memex Claude Code plugin.
+Memex connects Claude Code to your saved Memex library so Claude can search, cite, and save the pages, videos, posts, PDFs, images, notes, and highlights you have already collected across the web.
 
-The canonical editable source still lives in [WorldBrain/memex-v2](https://github.com/WorldBrain/memex-v2). This repo exists so Claude reviewers and users can install, inspect, and validate the plugin without cloning the full monorepo.
+The plugin is meant for workflows where Claude should work with your own knowledge base instead of doing generic web search. It gives Claude direct access to the hosted Memex MCP server, lets it save new URLs into Memex, and bundles the Memex skill so the model stays scoped to your library.
 
 ## Install from this repo
 
@@ -32,25 +32,30 @@ It includes:
 - the bundled `memex-agent-skill`
 - a `UserPromptSubmit` hook that indexes every URL from the user's prompt before Claude continues
 
-## Required credentials
+In practice, that means Claude can:
 
-See the canonical auth guide:
+- search your saved Memex content instead of relying only on the open web
+- retrieve source URLs from your own saved material
+- save new public URLs into Memex so they become searchable later
+- use the same hosted Memex backend that the connector flow uses
 
-- [Authentication](https://docs.memex.garden/general/authentication)
+## Authentication
 
-Choose one auth mode before starting Claude Code.
+The default and recommended auth path for Memex is OAuth.
 
-API key mode:
+If you use Memex through Claude's connector UI, Claude connects to `https://api.memex.garden/mcp` and completes the Memex OAuth flow directly. In that flow, you do not paste API keys into Claude.
+
+For a local Claude Code plugin checkout like this repo, you can still use the same Memex auth model by providing an OAuth bearer token:
+
+```bash
+export MEMEX_BEARER_TOKEN="YOUR_OAUTH_ACCESS_TOKEN"
+```
+
+The plugin also supports API keys as an optional alternative for local setups and testing:
 
 ```bash
 export MEMEX_API_KEY="YOUR_MEMEX_API_KEY"
 export MEMEX_USER_ID="YOUR_MEMEX_USER_ID"
-```
-
-Bearer token mode:
-
-```bash
-export MEMEX_BEARER_TOKEN="YOUR_OAUTH_ACCESS_TOKEN"
 ```
 
 Optional override:
@@ -59,7 +64,16 @@ Optional override:
 export MEMEX_API_BASE_URL="https://api.memex.garden"
 ```
 
-`MEMEX_BEARER_TOKEN` takes precedence over `MEMEX_API_KEY` if both are set. `MEMEX_USER_ID` is optional. `MEMEX_API_BASE_URL` defaults to `https://api.memex.garden`.
+Auth precedence:
+
+- `MEMEX_BEARER_TOKEN` is used first when present
+- otherwise the plugin uses `MEMEX_API_KEY`
+- `MEMEX_USER_ID` is optional
+- `MEMEX_API_BASE_URL` defaults to `https://api.memex.garden`
+
+Canonical auth docs:
+
+- [Authentication](https://docs.memex.garden/general/authentication)
 
 If you are using Claude's custom connector UI instead of the local Claude Code plugin flow, do not install this repo. Use the literal connector URL `https://api.memex.garden/mcp` and complete the OAuth flow there.
 
@@ -77,25 +91,18 @@ Behavior and disclosures:
 - The plugin does not bundle local model inference or a local MCP wrapper.
 - The hook blocks prompt submission if URL auto-indexing fails.
 - The skill is scoped to Memex library search and Memex URL saves.
+- Memex OAuth is the default auth path for the hosted connector flow and the recommended path for local plugin use. API keys remain optional for local setups.
 - The plugin relies on the same public Memex docs used by the hosted connector flow:
   - [Available endpoints](https://docs.memex.garden/general/available-endpoints)
   - [Response shape](https://docs.memex.garden/general/response-shape)
   - [Buy credits](https://docs.memex.garden/general/buy-credits)
 
-## Release flow
+## Repository contents
 
-This repo is intended to be synced automatically from `WorldBrain/memex-v2` whenever `master` changes there.
-
-The public plugin files here are:
+This repository contains the installable public Claude plugin bundle:
 
 - `.claude-plugin/plugin.json`
 - `.mcp.json`
 - `hooks/`
 - `scripts/index-user-prompt-urls.mjs`
 - `skills/memex-agent-skill/`
-
-If you need to sync from the monorepo manually:
-
-```bash
-node scripts/sync-public-files.mjs /absolute/path/to/memex-v2
-```
