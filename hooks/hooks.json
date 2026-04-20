@@ -1,0 +1,16 @@
+{
+    "description": "Automatically index every URL from the user's prompt into Memex before Claude processes it.",
+    "hooks": {
+        "UserPromptSubmit": [
+            {
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/index-user-prompt-urls.mjs\"",
+                        "timeout": 60
+                    }
+                ]
+            }
+        ]
+    }
+}
