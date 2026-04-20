@@ -1,8 +1,8 @@
 # Memex Claude Code plugin
 
-Memex connects Claude Code to your saved Memex library so Claude can search, cite, and save the pages, videos, posts, PDFs, images, notes, and highlights you have already collected across the web.
+This is the Claude plugin for Memex.Garden, a bookmarking second brain for humans and agents.
 
-The plugin is meant for workflows where Claude should work with your own knowledge base instead of doing generic web search. It gives Claude direct access to the hosted Memex MCP server, lets it save new URLs into Memex, and bundles the Memex skill so the model stays scoped to your library.
+You can save, transcribe, summarize and search anything you come across. Websites, notes, web highlights, YouTube, X, TikTok, Instagram, PDFs, Reddit or images.
 
 ## Install from this repo
 
@@ -20,7 +20,7 @@ claude --plugin-dir /absolute/path/to/claude-memex
 
 Then run `/mcp` in Claude Code and confirm the `memex` server is connected.
 
-## What the plugin does
+## How it works
 
 This plugin connects Claude Code to the hosted Memex MCP server at `https://api.memex.garden/mcp`.
 
@@ -32,12 +32,8 @@ It includes:
 - the bundled `memex-agent-skill`
 - a `UserPromptSubmit` hook that indexes every URL from the user's prompt before Claude continues
 
-In practice, that means Claude can:
-
-- search your saved Memex content instead of relying only on the open web
-- retrieve source URLs from your own saved material
-- save new public URLs into Memex so they become searchable later
-- use the same hosted Memex backend that the connector flow uses
+- You can instruct your agent to save any URL and it will be indexed, videos transcribed, images analyzed, and stored in Memex for powerful full-text and vector search.
+- You can query saved content and get back structured data, ready for your agent to process.
 
 ## Authentication
 
@@ -77,13 +73,13 @@ Canonical auth docs:
 
 If you are using Claude's custom connector UI instead of the local Claude Code plugin flow, do not install this repo. Use the literal connector URL `https://api.memex.garden/mcp` and complete the OAuth flow there.
 
-## Reviewer notes
-
-Useful review prompts:
+## Example prompts
 
 1. `Search my Memex library for pages about MCP authentication and summarize the top results.`
 2. `Save https://docs.memex.garden/general/authentication into Memex, then confirm whether it was new or already indexed.`
 3. `Search Memex for recent saved content about Claude plugins and return the source URLs you used.`
+
+## Reviewer notes
 
 Behavior and disclosures:
 
