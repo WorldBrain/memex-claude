@@ -1,7 +1,7 @@
 {
     "name": "memex-claude-release",
     "private": true,
-    "version": "0.4.0",
+    "version": "2026.4.21",
     "type": "module",
     "scripts": {
         "sync:public-files": "node scripts/sync-public-files.mjs",
