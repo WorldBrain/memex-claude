@@ -7,10 +7,5 @@
     },
     "homepage": "https://docs.memex.garden/for-agents/claude-plugin",
     "repository": "https://github.com/WorldBrain/memex-claude",
-    "keywords": [
-        "memex",
-        "mcp",
-        "search",
-        "knowledge-management"
-    ]
+    "keywords": ["memex", "mcp", "search", "knowledge-management"]
 }
