@@ -42,6 +42,40 @@ Do not use Memex for general web search or facts outside the user's saved librar
 - In automation mode, avoid asking follow-up questions unless authentication is missing or processing would require an irreversible external action not described in the handoff.
 - Return a compact summary with processed, skipped, failed, and drained handoff IDs.
 
+## Task Completion Contract
+
+Use this contract for every request that changes, saves, shares, tags, or drains
+Memex data. A completed tool call is not necessarily a completed user task.
+
+1. Before acting, identify the requested final state and the evidence that will
+   prove it. Treat searches, reads, and setup mutations as intermediate work
+   unless they themselves satisfy that final state.
+2. After every mutation, inspect the returned structured result or perform a
+   read-back that proves the requested state. Do not claim success from a plan,
+   an intent statement, or an intermediate effect.
+3. For a multi-step tool run, make all safe tool calls before emitting
+   user-facing prose. Do not narrate work between tool calls: some clients
+   append streamed continuation text into the same response bubble. Only
+   interrupt for a required user decision or to report `incomplete`/`blocked`.
+   Treat a tool result's `activity` summary as the in-flow update for that
+   action; do not repeat it as assistant prose.
+4. If the model is about to end while the final state is unverified, continue
+   with the next safe tool call. A progress update such as "I will attach it"
+   is non-terminal and must be followed by that action in the same run.
+5. If verification cannot be completed because of an error, missing permission,
+   missing tool, safety constraint, or execution limit, report `incomplete` or
+   `blocked` with the unmet final state and the reason. Never report success.
+6. Prefer an idempotent goal-level tool when one exists. For tagging a known
+   content item, use `ensure_tag_on_content`; it resolves or creates the tag,
+   attaches it, and returns verified tag membership in one action.
+7. Final responses for mutations must state the verified outcome, target ID,
+   and any relevant tool-returned verification.
+
+For agent-quality review, record the requested final state, tool sequence,
+verification result, and terminal outcome (`completed`, `incomplete`, or
+`blocked`) in the final response. Do not create durable task-run state solely
+for this contract.
+
 ## Search Saved Content
 
 1. Call `search_content` with the user's query.
