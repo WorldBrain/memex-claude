@@ -42,40 +42,6 @@ Do not use Memex for general web search or facts outside the user's saved librar
 - In automation mode, avoid asking follow-up questions unless authentication is missing or processing would require an irreversible external action not described in the handoff.
 - Return a compact summary with processed, skipped, failed, and drained handoff IDs.
 
-## Task Completion Contract
-
-Use this contract for every request that changes, saves, shares, tags, or drains
-Memex data. A completed tool call is not necessarily a completed user task.
-
-1. Before acting, identify the requested final state and the evidence that will
-   prove it. Treat searches, reads, and setup mutations as intermediate work
-   unless they themselves satisfy that final state.
-2. After every mutation, inspect the returned structured result or perform a
-   read-back that proves the requested state. Do not claim success from a plan,
-   an intent statement, or an intermediate effect.
-3. For a multi-step tool run, make all safe tool calls before emitting
-   user-facing prose. Do not narrate work between tool calls: some clients
-   append streamed continuation text into the same response bubble. Only
-   interrupt for a required user decision or to report `incomplete`/`blocked`.
-   Treat a tool result's `activity` summary as the in-flow update for that
-   action; do not repeat it as assistant prose.
-4. If the model is about to end while the final state is unverified, continue
-   with the next safe tool call. A progress update such as "I will attach it"
-   is non-terminal and must be followed by that action in the same run.
-5. If verification cannot be completed because of an error, missing permission,
-   missing tool, safety constraint, or execution limit, report `incomplete` or
-   `blocked` with the unmet final state and the reason. Never report success.
-6. Prefer an idempotent goal-level tool when one exists. For tagging a known
-   content item, use `ensure_tag_on_content`; it resolves or creates the tag,
-   attaches it, and returns verified tag membership in one action.
-7. Final responses for mutations must state the verified outcome, target ID,
-   and any relevant tool-returned verification.
-
-For agent-quality review, record the requested final state, tool sequence,
-verification result, and terminal outcome (`completed`, `incomplete`, or
-`blocked`) in the final response. Do not create durable task-run state solely
-for this contract.
-
 ## Search Saved Content
 
 1. Call `search_content` with the user's query.
@@ -109,17 +75,17 @@ for this contract.
 
 ## Process Handoffs
 
-1. Call `list_handoffs` when the user asks for pending handoffs, unprocessed handoffs, agent handoffs, routing cues, or handoffs in a time frame.
-2. Omit `status` and `readyOnly` by default. This lists approved pending handoffs that are ready for plugin processing.
-3. Use `referenceContentEntityId` when a referenced Memex content entity is known.
-4. Use `createdAtFrom` and `createdAtTo` for an arbitrary ISO timestamp range, or `day` for a single `YYYY-MM-DD` day.
-5. Use `requestedDestinationText` to filter to a target app, agent, or person, such as Codex, Claude, OpenClaw, Hermes, Cursor, Devin, GitHub Copilot, Factory Droid, Jules, Replit Agent, Warp Oz, Obsidian, or a teammate.
-6. Pass `readyOnly: false` only when the user explicitly asks to inspect unapproved or draft handoffs; do not process or drain those by default.
+1. Call `list_handoffs` when the user asks for pending handoffs, unprocessed handoffs, agent handoffs, routing cues, or handoffs in a time frame. When the user explicitly asks for all handoffs irrespective of status, omit both `status` and `readyOnly` to return every status and approval state.
+2. For a normal poll, pass `status: "pending"` and omit `readyOnly`. This returns every unprocessed handoff, whether approved (`readyAt` is set) or not yet approved (`readyAt` is null), while excluding handoffs already marked processed.
+3. Process approved pending handoffs first. If any returned pending handoffs have `readyAt: null`, tell the user how many there are (with their IDs and titles) and ask: "These handoffs are not approved yet. Do you want me to pull and process them anyway?" Do not process or drain them unless the user confirms. In unattended polling, report them as skipped because approval is required; do not drain them.
+4. Use `referenceContentEntityId` when a referenced Memex content entity is known.
+5. Use `createdAtFrom` and `createdAtTo` for an arbitrary ISO timestamp range, or `day` for a single `YYYY-MM-DD` day. To retrieve an old approved but unprocessed handoff, use `status: "pending"` with its date range. To retrieve a handoff already pulled before, use `status: "processed"` with its date range; this is an explicit historical lookup, not the normal poll.
+6. Use `requestedDestinationText` to filter to a target app, agent, or person, such as Codex, Claude, OpenClaw, Hermes, Cursor, Devin, GitHub Copilot, Factory Droid, Jules, Replit Agent, Warp Oz, Obsidian, or a teammate.
 7. For each returned handoff, read `title`, `descriptionMarkdown`, `timingText`, `requestedDestinationText`, and `referenceContentEntityIds`.
 8. Process only handoffs this agent can actually complete in the current runtime. Leave unsupported or unsafe handoffs undrained and report why.
-9. Call `drain_handoff` only after the current agent has actually completed that handoff. Include the handoff ID and, when supported, identify the current agent in `processingTarget` or response metadata.
+9. After the agent has successfully completed a selected handoff, it must call `drain_handoff` with the handoff ID and `processingTarget` (plus response metadata when supported). Confirm the returned handoff has `status: "processed"` and `processingType: "api_pull"`; if draining fails, report the failure so the handoff remains eligible for a later poll.
 10. Do not call `drain_handoff` merely because a handoff was listed, inspected, summarized, queued elsewhere, or could not be completed.
-11. For automation runs, continue through all processable handoffs and finish with a compact machine-readable summary.
+11. For automation runs, continue through all processable handoffs and finish with a compact machine-readable summary, including unapproved/skipped and drained handoff IDs.
 
 ## Search Or Manage Saved Views
 
