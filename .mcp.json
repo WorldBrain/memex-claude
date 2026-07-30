@@ -5,8 +5,16 @@
             "url": "https://api.memex.garden/mcp",
             "headers": {
                 "Authorization": "Bearer ${MEMEX_BEARER_TOKEN:-}",
-                "x-user-id": "${MEMEX_USER_ID}",
-                "x-api-key": "${MEMEX_API_KEY}"
+                "x-user-id": "${MEMEX_USER_ID:-}",
+                "x-api-key": "${MEMEX_API_KEY:-}"
+            }
+        },
+        "memex-realtime": {
+            "type": "stdio",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/mcp/realtime-server.mjs"],
+            "env": {
+                "MEMEX_REALTIME_STATE_DIR": "${CLAUDE_PLUGIN_DATA}"
             }
         }
     }

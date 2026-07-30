@@ -1,16 +1,14 @@
 {
     "name": "memex-garden",
     "version": "2026.7.24",
-    "description": "Search and save content in your Memex library through the hosted Memex MCP server and bundled memex-agent-skill.",
+    "description": "Search and save Memex content, route handoffs, and receive live handoff notifications through bundled MCP servers and skills.",
     "author": {
         "name": "Memex"
     },
     "homepage": "https://docs.memex.garden/for-agents/claude-plugin",
     "repository": "https://github.com/WorldBrain/memex-claude",
-    "keywords": [
-        "memex",
-        "mcp",
-        "search",
-        "knowledge-management"
-    ]
+    "keywords": ["memex", "mcp", "search", "knowledge-management"],
+    "experimental": {
+        "monitors": "./monitors/monitors.json"
+    }
 }
