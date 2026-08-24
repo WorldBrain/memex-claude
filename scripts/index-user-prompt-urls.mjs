@@ -1,6 +1,6 @@
 import process from 'node:process'
 
-const DEFAULT_API_BASE_URL = 'https://api.memex.garden'
+const DEFAULT_API_BASE_URL = 'https://memex.garden/api'
 const TRAILING_PUNCTUATION = /[),.;!?]+$/
 const URL_PATTERN = /https?:\/\/[^\s<>"'`]+/gi
 
