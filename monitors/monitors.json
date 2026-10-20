@@ -1,0 +1,8 @@
+[
+    {
+        "name": "memex-realtime-handoffs",
+        "command": "node \"${CLAUDE_PLUGIN_ROOT}/mcp/realtime-monitor.mjs\"",
+        "description": "Live approved Memex handoffs from the shared local realtime connection",
+        "when": "always"
+    }
+]

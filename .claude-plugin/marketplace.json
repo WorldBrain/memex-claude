@@ -1,0 +1,33 @@
+{
+    "name": "memex-plugins",
+    "owner": {
+        "name": "Memex"
+    },
+    "metadata": {
+        "description": "The bookmarking 2nd brain for Claude"
+    },
+    "plugins": [
+        {
+            "name": "memex-garden",
+            "source": "./",
+            "description": "Save & search what you find online. Youtube, Web, Reddit, X, Tiktok, Instagram, PDFs, Images, Notes, Web Highlights - anything",
+            "version": "2026.9.5",
+            "author": {
+                "name": "Memex"
+            },
+            "homepage": "https://docs.memex.garden/for-agents/claude-plugin",
+            "repository": "https://github.com/WorldBrain/memex-claude",
+            "keywords": [
+                "memex",
+                "mcp",
+                "search",
+                "knowledge-management"
+            ],
+            "tags": [
+                "mcp",
+                "memex",
+                "search"
+            ]
+        }
+    ]
+}
