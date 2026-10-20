@@ -50,33 +50,15 @@ This requires Node.js 22 or newer on the machine running Claude Code. It does no
 
 ## Authentication
 
-Use OAuth when installing the Claude plugin through the upload flow above.
+Claude manages the hosted Memex connection through OAuth. No API keys, bearer-token exports, or user IDs are required.
 
-For local Claude Code plugin use, provide an OAuth bearer token:
+In Claude Code, open `/mcp` and authenticate `plugin:memex-garden:memex`, or run:
 
-```bash
-export MEMEX_BEARER_TOKEN="YOUR_OAUTH_ACCESS_TOKEN"
+```sh
+claude mcp login plugin:memex-garden:memex
 ```
 
-You can also use an API key:
-
-```bash
-export MEMEX_API_KEY="YOUR_MEMEX_API_KEY"
-export MEMEX_USER_ID="YOUR_MEMEX_USER_ID"
-```
-
-Optional override:
-
-```bash
-export MEMEX_API_BASE_URL="https://memex.garden/api"
-```
-
-Auth precedence:
-
-- `MEMEX_BEARER_TOKEN` is used first when present
-- otherwise the plugin uses `MEMEX_API_KEY`
-- `MEMEX_USER_ID` is optional
-- `MEMEX_API_BASE_URL` defaults to `https://memex.garden/api`
+Start a new session after installing the plugin so Claude loads its tools. Saving URLs uses the authenticated Memex tools when requested; installing the plugin does not automatically upload URLs from your prompts.
 
 Auth docs:
 

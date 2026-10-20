@@ -2,12 +2,7 @@
     "mcpServers": {
         "memex": {
             "type": "http",
-            "url": "https://memex.garden/api/mcp",
-            "headers": {
-                "Authorization": "Bearer ${MEMEX_BEARER_TOKEN:-}",
-                "x-user-id": "${MEMEX_USER_ID:-}",
-                "x-api-key": "${MEMEX_API_KEY:-}"
-            }
+            "url": "https://memex.garden/api/mcp"
         },
         "memex-realtime": {
             "type": "stdio",
