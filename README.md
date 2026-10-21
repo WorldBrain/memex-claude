@@ -16,7 +16,7 @@ Run these commands in Claude Code:
 /reload-plugins
 ```
 
-Open `/mcp` and connect Memex with OAuth when prompted. Live handoffs require Node.js 22 or newer.
+Open `/mcp` and connect Memex with OAuth when prompted. The plugin uses only the hosted Memex MCP; no local companion process or Node.js installation is required.
 
 ### Claude Desktop
 
@@ -33,20 +33,6 @@ Open `/mcp` and connect Memex with OAuth when prompted. Live handoffs require No
 
 1. `Search my Memex library for pages about MCP authentication and summarize the top results.`
 2. `Save https://docs.memex.garden/general/authentication into Memex, and tag it with #tutorials`
-
-## Live handoffs in Claude Code
-
-The plugin bundles a local Realtime MCP and a Claude Code background monitor.
-The first authenticated Memex operation automatically exchanges a short-lived,
-single-use pairing ticket between the hosted OAuth connection and the local
-MCP. No second login or separate enable command is required.
-`/memex:enable-realtime-handoffs` remains available for explicit repair. The
-local process then maintains a Supabase Realtime WebSocket, refreshes its
-session, reconnects automatically, and forwards approved handoffs into
-interactive Claude Code sessions. Durable handoff rows remain the source of
-truth, so missed events can still be fetched later.
-
-This requires Node.js 22 or newer on the machine running Claude Code. It does not require a separate Memex companion app. Claude web chat and Claude Code on the web currently allow on-demand use of the hosted handoff tools, but do not let a remote connector start an unsolicited cloud conversation.
 
 ## Authentication
 
