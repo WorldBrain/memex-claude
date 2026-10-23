@@ -15,11 +15,11 @@ Do not use Memex for general web search or facts outside the user's saved librar
 
 1. Use the `memex` MCP server configured by this plugin. Do not substitute a separately configured legacy Memex connected app that does not expose `discover_actions`.
 2. Call `discover_actions` with the user's intended outcome before every Memex operation. Do not fetch endpoint catalogs, search web docs, inspect environment credentials, or probe raw REST first.
-3. Select the relevant returned action card, then call `execute_action` with its `id` as `actionId` and an `input` object matching its current `inputSummary`. Treat the action card as the cloud-side source of truth; do not require a named compatibility tool.
+3. Select the relevant returned action card, then call the tool in its `name` field with its `id` as `actionId` and an `input` object matching its current `inputSummary`. Read-only actions use `read_action`; mutations and external effects use `write_action`. The server enforces this separation. Treat the action card as the cloud-side source of truth.
 4. If authentication is missing or stale, use the current host's MCP or plugin authentication flow. Complete sign-in and start a new conversation or agent session before retrying so the tool catalogue refreshes.
 5. In unattended automation or clients that cannot open an authentication flow, stop and tell the user to connect Memex interactively before retrying. Use https://docs.memex.garden/general/authentication only as fallback documentation.
 6. Parse responses using https://docs.memex.garden/general/response-shape.
-7. If a request fails because of insufficient credits, follow https://docs.memex.garden/general/buy-credits.
+7. If a request fails because of insufficient credits, direct the user to https://memex.garden/pricing to add usage balance.
 
 ## Choose The Runbook
 
@@ -51,8 +51,8 @@ Do not use Memex for general web search or facts outside the user's saved librar
 
 ## Save Public Content
 
-1. Confirm the user provided a public URL or explicitly asked to save public content.
-2. Select the discovered save/index action and call `execute_action` using its returned action ID and current input summary.
+1. Save public content only when the user asks to save it. A URL pasted for another purpose does not request saving.
+2. Select the discovered save/index action and call the tool in its `name` field (`write_action` for saves) using its returned action ID and current input summary.
 3. Include only user-requested tags, metadata, or notes.
 4. Report the saved item URL or returned Memex identifier.
 5. Do not claim the item is searchable until Memex reports successful indexing or processing.
@@ -104,17 +104,13 @@ Do not use Memex for general web search or facts outside the user's saved librar
 ## Handle Failures
 
 1. Authentication error: tell the user to refresh credentials with https://docs.memex.garden/general/authentication.
-2. Insufficient credits:
-    - Fetch available plans.
-    - Ask the human which plan to use.
-    - For one-time plans, use the runtime payment harness to issue a Stripe Shared Payment Token, then call authenticated `POST /checkout` with the user's Memex bearer token and token.
-    - For subscription plans, send the user to https://memex.garden/pricing.
+2. Insufficient credits: direct the user to https://memex.garden/pricing to add usage balance in their browser.
 3. Malformed request or unknown parameter: re-read https://docs.memex.garden/general/available-endpoints and retry with documented field names.
 
 ## Troubleshooting
 
 - Not authenticated: https://docs.memex.garden/general/authentication
-- Out of credits: https://docs.memex.garden/general/buy-credits
+- Out of credits: https://memex.garden/pricing
 - Malformed request or unknown parameter: re-read https://docs.memex.garden/general/available-endpoints and retry with the documented field names.
 
 ## Claude Code authentication

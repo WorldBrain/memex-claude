@@ -20,7 +20,7 @@ Open `/mcp` and connect Memex with OAuth when prompted. The plugin uses only the
 
 ### Claude Desktop
 
-1. [Download](https://github.com/WorldBrain/memex-claude/raw/main/memex-garden-claude-plugin.zip) plugin
+1. [Download](https://github.com/WorldBrain/memex-claude/releases/latest/download/memex-claude.zip) plugin
 2. Go to Claude's `Customize` tab
 3. `Personal Plugins` > `+` icon > `Create Plugin` > `Upload Plugin`
 4. Select the zip
@@ -45,6 +45,12 @@ claude mcp login plugin:memex-garden:memex
 ```
 
 Start a new session after installing the plugin so Claude loads its tools. Saving URLs uses the authenticated Memex tools when requested; installing the plugin does not automatically upload URLs from your prompts.
+
+## Data and permissions
+
+The plugin connects only to the hosted Memex MCP at `https://memex.garden/api/mcp`. It sends the arguments of requested Memex operations and receives the matching results. Discovery names `read_action` for retrieval and `write_action` for changes; the server rejects an action sent to the wrong tool. Write tools declare that they modify data so Claude can ask for confirmation.
+
+The skill supports library search, saving public URLs, tags, sharing links, feeds, and handoff operations when explicitly requested. Saved content and metadata are stored by Memex under its [Privacy Policy](https://memex.garden/privacy/). The plugin runs no local server, background monitor, or prompt-upload hook. Reading a URL in a prompt does not automatically save it.
 
 Auth docs:
 
